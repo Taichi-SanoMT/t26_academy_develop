@@ -1,6 +1,7 @@
 package jp.co.metateam.library.controller;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
+import jp.co.metateam.library.model.AccountDto;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.service.BookMstService;
+import jp.co.metateam.library.values.AuthorizationTypes;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -50,5 +53,11 @@ public class BookController {
 
         return "book/add";
     }
+
+    @PostMapping("/book/add")
+    public String addBook(@ModelAttribute BookMstDto dto) {
+    bookMstService.save(dto);
+    return "redirect:/book/index";
+    }
     
-}
+ }

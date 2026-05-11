@@ -42,8 +42,22 @@ public class BookMstService {
 
         return bookMstDtoList;
     }
-    
+
+
+    public void save(BookMstDto bookMstDto) {
+    BookMst book = new BookMst();
+
+    book.setIsbn(bookMstDto.getIsbn());
+    book.setTitle(bookMstDto.getTitle());
+
+    bookMstRepository.save(book);
+    }
 }
+
+
+
+  
+
 
 
 
