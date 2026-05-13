@@ -1,7 +1,6 @@
 package jp.co.metateam.library.controller;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,11 +26,11 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 public class BookController {
-    
+
     private final BookMstService bookMstService;
 
     @Autowired
-    public BookController(BookMstService bookMstService){
+    public BookController(BookMstService bookMstService) {
         this.bookMstService = bookMstService;
     }
 
@@ -39,7 +38,7 @@ public class BookController {
     public String index(Model model) {
         // 書籍を全件取得
         List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
-        
+
         model.addAttribute("bookMstList", bookMstList);
 
         return "book/index";
@@ -55,9 +54,8 @@ public class BookController {
     }
 
     @PostMapping("/book/add")
-    public String addBook(@ModelAttribute BookMstDto dto) {
-    bookMstService.save(dto);
-    return "redirect:/book/index";
+    public String add(@ModelAttribute BookMstDto bookMstDto) {
+        bookMstService.save(bookMstDto);
+        return "redirect:/book/index";
     }
-    
- }
+}
