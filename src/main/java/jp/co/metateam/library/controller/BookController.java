@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
+import jp.co.metateam.library.model.AccountDto;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.service.BookMstService;
+import jp.co.metateam.library.values.AuthorizationTypes;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -24,11 +26,11 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 public class BookController {
-    
+
     private final BookMstService bookMstService;
 
     @Autowired
-    public BookController(BookMstService bookMstService){
+    public BookController(BookMstService bookMstService) {
         this.bookMstService = bookMstService;
     }
 
@@ -36,7 +38,7 @@ public class BookController {
     public String index(Model model) {
         // 書籍を全件取得
         List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
-        
+
         model.addAttribute("bookMstList", bookMstList);
 
         return "book/index";
@@ -50,5 +52,10 @@ public class BookController {
 
         return "book/add";
     }
-    
+
+    @PostMapping("/book/add")
+    public String add(@ModelAttribute BookMstDto bookMstDto) {
+        bookMstService.save(bookMstDto);
+        return "redirect:/book/index";
+    }
 }
